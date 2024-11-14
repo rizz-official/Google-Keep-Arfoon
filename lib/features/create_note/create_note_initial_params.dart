@@ -1,0 +1,3 @@
+class CreateNoteInitialParams {
+  const CreateNoteInitialParams();
+}
