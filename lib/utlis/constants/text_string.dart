@@ -8,4 +8,5 @@ class GooglekeepTexts {
   static const String appName = "Google Keep";
   static const String tContinue = "Continue";
   static const String emptyNotes = "Notes you add appear here";
+  static const String editLabels = 'Edit labels';
 }

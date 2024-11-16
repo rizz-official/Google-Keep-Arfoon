@@ -1,0 +1,4 @@
+class LabelInitialParams {
+
+const LabelInitialParams();
+}

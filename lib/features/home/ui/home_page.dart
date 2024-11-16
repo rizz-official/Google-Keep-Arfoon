@@ -20,6 +20,11 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage> {
   HomeCubit get cubit => widget.cubit;
+  @override
+  void initState() {
+    cubit.onInit();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +47,28 @@ class _HomeState extends State<HomePage> {
                     isWeb: state.isWeb,
                     isDrawerVisible: state.isDrawerVisible,
                   ),
-                  EmptyStateContent(isWeb: state.isWeb),
+                  state.notesList.isEmpty
+                      ? EmptyStateContent(isWeb: state.isWeb)
+                      : ListView.builder(
+                          itemCount: state.notesList.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 20,
+                              decoration:
+                                  BoxDecoration(border: Border.all(width: 2)),
+                              child: Text(state.notesList[index].title),
+                            );
+                          }),
                 ],
               ),
-              drawer: state.isWeb ? null : CustomDrawer(isWeb: state.isWeb),
+              drawer: state.isWeb
+                  ? null
+                  : CustomDrawer(
+                      isWeb: state.isWeb,
+                      onTapEdit: cubit.onLabelEditTap,
+                    ),
               floatingActionButton: CustomFloatingActionButton(
-                onPressed: () {},
+                onPressed: cubit.onAddNoteTap,
               ),
             );
           },

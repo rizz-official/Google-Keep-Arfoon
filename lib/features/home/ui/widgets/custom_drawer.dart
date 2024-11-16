@@ -4,8 +4,9 @@ import 'package:google_keep_arfoon/utlis/constants/sizes.dart';
 import '../../../../utlis/theme/text_theme.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key, required this.isWeb});
+  const CustomDrawer({super.key, required this.isWeb,this.onTapEdit});
   final bool isWeb;
+  final VoidCallback? onTapEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +69,12 @@ class CustomDrawer extends StatelessWidget {
                           .bodyRegular
                           .copyWith(fontWeight: FontWeight.w500, fontSize: 14)),
                   const Spacer(),
-                  Text('Edit     ',
-                      style: GoogleKeepTextTheme()
-                          .bodyRegular
-                          .copyWith(fontWeight: FontWeight.w500, fontSize: 14))
+                  GestureDetector(
+                    onTap: onTapEdit,
+                    child: Text('Edit     ',
+                        style: GoogleKeepTextTheme().bodyRegular.copyWith(
+                            fontWeight: FontWeight.w500, fontSize: 14)),
+                  )
                 ],
               ),
             ),
