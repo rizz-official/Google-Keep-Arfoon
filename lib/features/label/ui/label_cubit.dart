@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_keep_arfoon/features/label/domain/repository/labels_repository.dart';
+import 'package:google_keep_arfoon/features/home/domain/repositories/labels_repository.dart';
 import '../domain/models/label_model.dart';
 import 'label_initial_params.dart';
 import 'label_state.dart';

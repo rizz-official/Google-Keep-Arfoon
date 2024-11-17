@@ -3,13 +3,13 @@ import '../../../../utlis/constants/colors.dart';
 import '../../../../utlis/theme/text_theme.dart';
 
 class TitleTextField extends StatelessWidget {
-  const TitleTextField({super.key, required this.onChanged});
-  final void Function(String)? onChanged;
+  const TitleTextField({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: onChanged,
+      controller: controller,
       style: GoogleKeepTextTheme().bodyMedium.copyWith(
             fontSize: 18,
             color: GoogleKeepColors.dark90,

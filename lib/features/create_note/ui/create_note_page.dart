@@ -45,18 +45,11 @@ class _CreateNoteState extends State<CreateNotePage> {
               builder: (context, state) {
                 return IconButton(
                   icon: const Icon(Icons.save_as_outlined),
-                  onPressed: () async {
-                    await cubit.saveNote();
+                  onPressed: ()  {
+                    Navigator.of(context).pop();
+                    cubit.saveNote();
 
-                    if (state.success) {
-                      Navigator.of(context).pop();
-                    } else if (state.error != null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.error!),
-                        ),
-                      );
-                    }
+
                   },
                 );
               }),
@@ -74,10 +67,10 @@ class _CreateNoteState extends State<CreateNotePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TitleTextField(
-                    onChanged: cubit.updateTitle,
+                    controller: cubit.titleController,
                   ),
                   NoteContentTextField(
-                    onChanged: cubit.updateNoteContent,
+                    controller: cubit.noteContentController,
                   ),
                 ],
               ),

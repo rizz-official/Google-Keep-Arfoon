@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:google_keep_arfoon/features/label/data/mock_labels_repository.dart';
-import 'package:google_keep_arfoon/features/label/domain/repository/labels_repository.dart';
+import 'package:google_keep_arfoon/features/create_note/domain/use_cases/add_new_note_use_case.dart';
+import 'package:google_keep_arfoon/features/home/domain/repositories/labels_repository.dart';
+import 'package:google_keep_arfoon/features/home/domain/stores/notes_store.dart';
 import 'package:google_keep_arfoon/features/label/ui/label_cubit.dart';
 import 'package:google_keep_arfoon/features/label/ui/label_initial_params.dart';
 import 'package:google_keep_arfoon/features/label/ui/label_navigator.dart';
@@ -9,6 +10,7 @@ import 'package:google_keep_arfoon/utlis/constants/text_string.dart';
 import 'features/create_note/ui/create_note_cubit.dart';
 import 'features/create_note/ui/create_note_initial_params.dart';
 import 'features/create_note/ui/create_note_navigator.dart';
+import 'features/home/data/repositories/mock_labels_repository.dart';
 import 'features/home/data/repositories/mock_notes_repository.dart';
 import 'features/home/domain/repositories/notes_repository.dart';
 import 'features/home/ui/home_cubit.dart';
@@ -21,12 +23,17 @@ final getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton<AppNavigator>(AppNavigator());
-  getIt.registerSingleton<LabelsRepository>(MockLabelsRepository());
   getIt.registerSingleton<NotesRepository>(MockNotesRepository());
+  getIt.registerSingleton<NotesStore>(NotesStore());
+  getIt.registerSingleton<AddNewNoteUseCase>(
+      AddNewNoteUseCase(getIt(), getIt()));
+  getIt.registerSingleton<LabelsRepository>(MockLabelsRepository());
   getIt.registerSingleton<HomeNavigator>(HomeNavigator(getIt()));
   getIt.registerFactoryParam<HomeCubit, HomeInitialParams, dynamic>(
     (params, _) => HomeCubit(
       params,
+      getIt(),
+      getIt(),
       getIt(),
       getIt(),
     ),
@@ -35,9 +42,7 @@ void main() {
   getIt.registerSingleton<CreateNoteNavigator>(CreateNoteNavigator());
 
   getIt.registerFactoryParam<CreateNoteCubit, CreateNoteInitialParams, dynamic>(
-    (params, _) => CreateNoteCubit(
-      params,
-    ),
+    (params, _) => CreateNoteCubit(params, getIt()),
   );
 
   getIt.registerSingleton<LabelNavigator>(LabelNavigator());

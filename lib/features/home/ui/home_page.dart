@@ -10,6 +10,7 @@ import 'widgets/custom_app_bar.dart';
 import 'widgets/custom_drawer.dart';
 import 'widgets/custom_floating_action_button.dart';
 import 'widgets/drawer_content.dart';
+import 'widgets/empty_state_content.dart';
 
 class HomePage extends StatefulWidget {
   final HomeCubit cubit;
@@ -23,6 +24,7 @@ class _HomeState extends State<HomePage> {
   HomeCubit get cubit => widget.cubit;
   @override
   void initState() {
+    cubit.fetchLabels();
     cubit.fetchNotes();
     super.initState();
   }
@@ -49,20 +51,25 @@ class _HomeState extends State<HomePage> {
                   DrawerContent(
                     isWeb: state.isWeb,
                     isDrawerVisible: state.isDrawerVisible,
+                    labels: state.labelsList,
+                    onEditTap: cubit.onEditLabelsTap,
                   ),
-                  state.isGridView
-                      ? SingleColumnList(list: state.notesList)
-                      : MultiColumnList(
-                          isWeb: state.isWeb,
-                          list: state.notesList,
-                        )
+                  state.notesList.isEmpty
+                      ? EmptyStateContent(isWeb: state.isWeb)
+                      : state.isGridView
+                          ? SingleColumnList(list: state.notesList)
+                          : MultiColumnList(
+                              isWeb: state.isWeb,
+                              list: state.notesList,
+                            )
                 ],
               ),
               drawer: state.isWeb
                   ? null
                   : CustomDrawer(
                       isWeb: state.isWeb,
-                      onTapEdit: cubit.onLabelEditTap,
+                      onTapEdit: cubit.onEditLabelsTap,
+                      labels: state.labelsList,
                     ),
               floatingActionButton: CustomFloatingActionButton(
                 onPressed: cubit.onAddNoteTap,

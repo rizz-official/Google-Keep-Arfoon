@@ -1,4 +1,5 @@
 import 'package:google_keep_arfoon/features/create_note/domain/models/notes_model.dart';
+import 'package:google_keep_arfoon/features/label/domain/models/label_model.dart';
 
 import 'home_initial_params.dart';
 
@@ -6,6 +7,7 @@ class HomeState {
   final bool isWeb;
   final bool isDrawerVisible;
   final List<Notes> notesList;
+  final List<Label> labelsList;
   final bool isLoading;
   final String? error;
   final bool isGridView;
@@ -17,6 +19,7 @@ class HomeState {
     required this.isLoading,
     this.error,
     required this.isGridView,
+    required this.labelsList,
   });
 
   factory HomeState.initial({required HomeInitialParams initialParams}) =>
@@ -27,6 +30,7 @@ class HomeState {
         isLoading: false,
         error: null,
         isGridView: true,
+        labelsList: [],
       );
 
   HomeState copyWith({
@@ -36,6 +40,7 @@ class HomeState {
     bool? isLoading,
     String? error,
     bool? isGridView,
+    List<Label>? labelsList,
   }) =>
       HomeState(
         isWeb: isWeb ?? this.isWeb,
@@ -44,5 +49,6 @@ class HomeState {
         isLoading: isLoading ?? this.isLoading,
         error: error,
         isGridView: isGridView ?? this.isGridView,
+        labelsList: labelsList?? this.labelsList,
       );
 }

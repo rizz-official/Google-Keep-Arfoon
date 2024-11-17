@@ -1,7 +1,7 @@
 import 'package:google_keep_arfoon/features/label/domain/models/label_model.dart';
 import '../../features/create_note/domain/models/notes_model.dart';
 
-List<Notes> fakeNotesData = [
+List<Notes> mockLabelsList = [
   const Notes(
     id: 1,
     title: 'Shopping List',
@@ -73,5 +73,5 @@ List<Notes> fakeNotesData = [
 
 
 List<Notes> getFakeNotes() {
-  return fakeNotesData;
+  return mockLabelsList;
 }

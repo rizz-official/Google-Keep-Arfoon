@@ -4,14 +4,14 @@ import '../../../../utlis/constants/colors.dart';
 import '../../../../utlis/theme/text_theme.dart';
 
 class NoteContentTextField extends StatelessWidget {
-  const NoteContentTextField({super.key, this.onChanged});
-  final void Function(String)? onChanged;
+  const NoteContentTextField({super.key, required this.controller});
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: TextField(
-        onChanged: onChanged,
+        controller: controller,
         maxLines: null,
         expands: true,
         textCapitalization: TextCapitalization.sentences,

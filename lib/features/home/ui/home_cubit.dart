@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_keep_arfoon/features/create_note/ui/create_note_initial_params.dart';
+import 'package:google_keep_arfoon/features/home/domain/repositories/labels_repository.dart';
+import 'package:google_keep_arfoon/features/home/domain/stores/notes_store.dart';
 import 'package:google_keep_arfoon/features/home/ui/home_navigator.dart';
 import 'package:google_keep_arfoon/features/label/ui/label_initial_params.dart';
 import 'package:google_keep_arfoon/features/home/domain/repositories/notes_repository.dart';
@@ -12,9 +14,12 @@ class HomeCubit extends Cubit<HomeState> {
   final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   final HomeNavigator navigator;
   final NotesRepository notesRepository;
+  final LabelsRepository labelsRepository;
+  final NotesStore notesStore;
 
-  HomeCubit(this.initialParams, this.navigator, this.notesRepository)
+  HomeCubit(this.initialParams, this.navigator, this.notesRepository, this.labelsRepository, this.notesStore)
       : super(HomeState.initial(initialParams: initialParams));
+
 
   void initializePlatform(double width) {
     emit(state.copyWith(isWeb: width > 600));
@@ -36,7 +41,7 @@ class HomeCubit extends Cubit<HomeState> {
     navigator.openCreateNote(const CreateNoteInitialParams());
   }
 
-  void onLabelEditTap() {
+  void onEditLabelsTap() {
     navigator.openLabel(const LabelInitialParams());
   }
 
@@ -50,9 +55,27 @@ class HomeCubit extends Cubit<HomeState> {
         ));
       },
       (notes) {
+        notesStore.setNotesList(notes);
         emit(state.copyWith(
           isLoading: false,
           notesList: notes,
+        ));
+      },
+    );
+  }
+  Future<void> fetchLabels() async {
+    final result = await labelsRepository.getLabels();
+    result.fold(
+          (failure) {
+        emit(state.copyWith(
+          isLoading: false,
+          error: failure.error,
+        ));
+      },
+          (labels) {
+        emit(state.copyWith(
+          isLoading: false,
+          labelsList: labels,
         ));
       },
     );

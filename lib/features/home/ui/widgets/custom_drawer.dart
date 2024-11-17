@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:google_keep_arfoon/features/label/domain/models/label_model.dart';
 import 'package:google_keep_arfoon/utlis/constants/colors.dart';
 import 'package:google_keep_arfoon/utlis/constants/sizes.dart';
 import '../../../../utlis/theme/text_theme.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key, required this.isWeb,this.onTapEdit});
+  const CustomDrawer(
+      {super.key,
+      required this.isWeb,
+      required this.onTapEdit,
+      required this.labels});
   final bool isWeb;
-  final VoidCallback? onTapEdit;
+  final VoidCallback onTapEdit;
+  final List<Label> labels;
 
   @override
   Widget build(BuildContext context) {
@@ -69,42 +75,32 @@ class CustomDrawer extends StatelessWidget {
                           .bodyRegular
                           .copyWith(fontWeight: FontWeight.w500, fontSize: 14)),
                   const Spacer(),
-                  GestureDetector(
-                    onTap: onTapEdit,
-                    child: Text('Edit     ',
-                        style: GoogleKeepTextTheme().bodyRegular.copyWith(
-                            fontWeight: FontWeight.w500, fontSize: 14)),
+                  TextButton(
+                    onPressed: onTapEdit,
+                    child: Text(
+                      'Edit',
+                      style: GoogleKeepTextTheme()
+                          .bodyRegular
+                          .copyWith(fontWeight: FontWeight.w500, fontSize: 14),
+                    ),
                   )
                 ],
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.label_outline),
-              title: Text('Dummy', style: GoogleKeepTextTheme().bodyRegular),
-              onTap: () {
-                // Handle label selection
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.label_outline),
-              title: Text('Google', style: GoogleKeepTextTheme().bodyRegular),
-              onTap: () {
-                // Handle label selection
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.label_outline),
-              title: Text('School', style: GoogleKeepTextTheme().bodyRegular),
-              onTap: () {
-                // Handle label selection
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.label_outline),
-              title: Text('Work', style: GoogleKeepTextTheme().bodyRegular),
-              onTap: () {
-                // Handle label selection
-              },
+            Expanded(
+              child: ListView.builder(
+                itemCount: labels.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: const Icon(Icons.label_outline),
+                    title: Text(labels[index].name,
+                        style: GoogleKeepTextTheme().bodyRegular),
+                    onTap: () {
+                      // Handle label selection
+                    },
+                  );
+                },
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.add),
