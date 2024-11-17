@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_keep_arfoon/features/home/ui/widgets/multi_column_list.dart';
+import 'package:google_keep_arfoon/features/home/ui/widgets/single_column_list.dart';
 import '../../../utlis/constants/colors.dart';
 import '../../../utlis/constants/text_string.dart';
 import 'home_cubit.dart';
@@ -8,7 +10,6 @@ import 'widgets/custom_app_bar.dart';
 import 'widgets/custom_drawer.dart';
 import 'widgets/custom_floating_action_button.dart';
 import 'widgets/drawer_content.dart';
-import 'widgets/empty_state_content.dart';
 
 class HomePage extends StatefulWidget {
   final HomeCubit cubit;
@@ -22,7 +23,7 @@ class _HomeState extends State<HomePage> {
   HomeCubit get cubit => widget.cubit;
   @override
   void initState() {
-    cubit.onInit();
+    cubit.fetchNotes();
     super.initState();
   }
 
@@ -38,6 +39,8 @@ class _HomeState extends State<HomePage> {
               key: cubit.key,
               backgroundColor: GoogleKeepColors.white,
               appBar: CustomAppBar(
+                isGridView: state.isGridView,
+                onGridViewToggle: cubit.toggleView,
                 title: GooglekeepTexts.appName,
                 onMenuTap: cubit.onMenuTap,
               ),
@@ -47,18 +50,12 @@ class _HomeState extends State<HomePage> {
                     isWeb: state.isWeb,
                     isDrawerVisible: state.isDrawerVisible,
                   ),
-                  state.notesList.isEmpty
-                      ? EmptyStateContent(isWeb: state.isWeb)
-                      : ListView.builder(
-                          itemCount: state.notesList.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 20,
-                              decoration:
-                                  BoxDecoration(border: Border.all(width: 2)),
-                              child: Text(state.notesList[index].title),
-                            );
-                          }),
+                  state.isGridView
+                      ? SingleColumnList(list: state.notesList)
+                      : MultiColumnList(
+                          isWeb: state.isWeb,
+                          list: state.notesList,
+                        )
                 ],
               ),
               drawer: state.isWeb

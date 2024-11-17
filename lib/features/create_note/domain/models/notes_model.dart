@@ -15,7 +15,7 @@ class Notes extends Equatable {
   });
 
   Notes.empty()
-      : id = DateTime.now().millisecondsSinceEpoch,
+      : id = DateTime.now().millisecond,
         title = '',
         noteContent = '',
         label = const [];

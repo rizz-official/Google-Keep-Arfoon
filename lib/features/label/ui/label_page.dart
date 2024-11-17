@@ -23,6 +23,13 @@ class LabelPage extends StatefulWidget {
 
 class _LabelPageState extends State<LabelPage> {
   LabelCubit get cubit => widget.cubit;
+
+  @override
+  void initState() {
+    cubit.onInit();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,23 +49,27 @@ class _LabelPageState extends State<LabelPage> {
         builder: (context, state) {
           return Column(
             children: [
-              state.isCreateLabel
+              state.isCreatingLabel
                   ? EditLabelTextField(
                       controller: cubit.labelController,
                       onClose: cubit.onCloseIconTap,
-                      onTick: cubit.onTickIconTap,
-                    )
+                      onTick: cubit.onTickIconTap)
                   : GestureDetector(
                       onDoubleTap: cubit.onCreateLabelTap,
                       child: EditLabelCard(
                         onPressed: cubit.onCreateLabelTap,
                       ),
                     ),
-              ExistingLabelCard(
-                isEditExistingLabel: state.isEditExistingLabel,
-                titleLabel: 'Work',
-                onEditIcon: cubit.onEditLabelTap,
-                onTickIcon: cubit.onTickIconTap,
+              Expanded(
+                child: ListView.builder(
+                  itemCount: state.labels.length,
+                  itemBuilder: (context, index) {
+                    final labels = state.labels;
+                    return ExistingLabelCard(
+                      label: labels[index],
+                    );
+                  },
+                ),
               ),
             ],
           );

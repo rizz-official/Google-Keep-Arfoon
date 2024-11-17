@@ -1,38 +1,43 @@
+import '../domain/models/label_model.dart';
 import 'label_initial_params.dart';
 
 class LabelState {
-  final List<String> labels;
+  final List<Label> labels;
   final String labelTitle;
-  final bool isCreateLabel;
+  final bool isCreatingLabel;
   final bool isEditExistingLabel;
+  final String? error;
 
   const LabelState({
     required this.labels,
     required this.labelTitle,
-    required this.isCreateLabel,
+    required this.isCreatingLabel,
     required this.isEditExistingLabel,
+    this.error,
   });
 
   factory LabelState.initial({required LabelInitialParams initialParams}) {
     return const LabelState(
       labels: [],
       labelTitle: '',
-      isCreateLabel: false,
+      isCreatingLabel: false,
       isEditExistingLabel: false,
+      error: null,
     );
   }
 
   LabelState copyWith({
-    List<String>? labels,
+    List<Label>? labels,
     String? labelTitle,
-    bool? isCreateLabel,
+    bool? isCreatingLabel,
     bool? isEditExistingLabel,
-  }) {
-    return LabelState(
+    String? error
+  }) =>
+     LabelState(
       labels: labels ?? this.labels,
       labelTitle: labelTitle ?? this.labelTitle,
-      isCreateLabel: isCreateLabel ?? this.isCreateLabel,
+      isCreatingLabel: isCreatingLabel ?? this.isCreatingLabel,
       isEditExistingLabel: isEditExistingLabel ?? this.isEditExistingLabel,
+      error: error,
     );
-  }
 }

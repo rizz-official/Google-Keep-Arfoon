@@ -8,6 +8,7 @@ class HomeState {
   final List<Notes> notesList;
   final bool isLoading;
   final String? error;
+  final bool isGridView;
 
   const HomeState({
     required this.isWeb,
@@ -15,15 +16,18 @@ class HomeState {
     required this.notesList,
     required this.isLoading,
     this.error,
+    required this.isGridView,
   });
 
   factory HomeState.initial({required HomeInitialParams initialParams}) =>
       const HomeState(
-          isWeb: false,
-          isDrawerVisible: true,
-          notesList: [],
-          isLoading: false,
-          error: null);
+        isWeb: false,
+        isDrawerVisible: true,
+        notesList: [],
+        isLoading: false,
+        error: null,
+        isGridView: true,
+      );
 
   HomeState copyWith({
     bool? isWeb,
@@ -31,6 +35,7 @@ class HomeState {
     List<Notes>? notesList,
     bool? isLoading,
     String? error,
+    bool? isGridView,
   }) =>
       HomeState(
         isWeb: isWeb ?? this.isWeb,
@@ -38,5 +43,6 @@ class HomeState {
         notesList: notesList ?? this.notesList,
         isLoading: isLoading ?? this.isLoading,
         error: error,
+        isGridView: isGridView ?? this.isGridView,
       );
 }

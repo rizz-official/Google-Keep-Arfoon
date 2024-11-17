@@ -5,17 +5,22 @@ import 'package:google_keep_arfoon/utlis/theme/text_theme.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback onMenuTap;
+  final VoidCallback onGridViewToggle;
+  final bool isGridView;
 
   const CustomAppBar({
     super.key,
     required this.title,
     required this.onMenuTap,
+    required this.onGridViewToggle,
+    required this.isGridView,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: GoogleKeepColors.white,
+      scrolledUnderElevation: 0,
       leading: IconButton(
         icon: const Icon(Icons.menu, color: Colors.black),
         onPressed: onMenuTap,
@@ -29,8 +34,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       actions: [
         IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.grid_view),
+          onPressed: onGridViewToggle,
+          icon: isGridView
+              ? const Icon(Icons.grid_view)
+              : const Icon(Icons.splitscreen),
         )
       ],
     );

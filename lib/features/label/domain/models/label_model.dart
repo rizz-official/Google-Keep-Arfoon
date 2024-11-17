@@ -1,21 +1,27 @@
 import 'package:equatable/equatable.dart';
 
 class Label extends Equatable {
-  final String labelTitle;
+  final int id;
+  final String name;
 
   const Label({
-    required this.labelTitle,
+    required this.id,
+    required this.name,
   });
 
-  const Label.empty() : labelTitle = '';
+  const Label.empty()
+      : id = 0,
+        name = '';
 
   Label copyWith({
-    String? labelTitle,
+    int? id,
+    String? name,
   }) =>
       Label(
-        labelTitle: labelTitle ?? this.labelTitle,
+        id: id ?? this.id,
+        name: name ?? this.name,
       );
 
   @override
-  List<Object?> get props => [labelTitle];
+  List<Object?> get props => [name, id];
 }
